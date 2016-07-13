@@ -147,6 +147,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   omniauth
   rails (= 4.2.4)
+  responders
   sdoc (~> 0.4.0)
   spring
   sqlite3

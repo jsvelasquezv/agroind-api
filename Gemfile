@@ -19,11 +19,19 @@ gem 'sqlite3'
 # # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
 
+# Manage responses on call at the api
+gem 'responders'
+
+
 # Authentication gems
 
 gem 'devise'
 gem 'devise_token_auth' # Token based authentication for Rails JSON APIs
 gem 'omniauth' # required for devise_token_auth
+
+# Authorization gems
+
+# gem 'pundit'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'

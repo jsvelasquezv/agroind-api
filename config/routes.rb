@@ -6,6 +6,15 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for "User", at: 'auth'
     end
   end
+
+  namespace :api, defaults: {format: 'json'} do
+    namespace :v1 do
+      get '/users' => 'users#index'
+      post '/user' => 'users#create'
+      delete '/user/:id' => 'users#destroy'
+    end
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
