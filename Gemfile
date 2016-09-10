@@ -27,6 +27,7 @@ gem 'responders'
 
 gem 'devise'
 gem 'devise_token_auth' # Token based authentication for Rails JSON APIs
+# gem 'devise_token_auth', '~> 0.1.38'
 gem 'omniauth' # required for devise_token_auth
 
 # Authorization gems

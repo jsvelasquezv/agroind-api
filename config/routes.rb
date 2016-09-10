@@ -1,17 +1,19 @@
 Rails.application.routes.draw do
 
   # mount_devise_token_auth_for 'User', at: 'auth'
-  namespace :api do
-    scope :v1 do
-      mount_devise_token_auth_for "User", at: 'auth'
-    end
-  end
+  # namespace :api do
+  #   scope :v1 do
+  #   end
+  # end
+  # devise_for :user
 
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
+      mount_devise_token_auth_for "User", at: 'auth'
+      # get '/users/:id' => 'users#show'
       get '/users' => 'users#index'
-      post '/user' => 'users#create'
-      delete '/user/:id' => 'users#destroy'
+      post '/users' => 'users#create'
+      delete '/users/:id' => 'users#destroy'
     end
   end
 
