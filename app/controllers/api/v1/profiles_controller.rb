@@ -1,8 +1,13 @@
 class Api::V1::ProfilesController < ApplicationController
   include Devise::Controllers::Helpers
-  respont_to :json
+  respond_to :json
 
   before_action :authenticate_api_v1_user!
+
+  def show
+    profile = Profile.find(params[:id])
+    respond_with profile
+  end
   
   def index
     if current_api_v1_user.can_manage_profiles?
@@ -23,9 +28,15 @@ class Api::V1::ProfilesController < ApplicationController
     end
   end
 
+  def update
+    profile = Profile.find(params[:id])
+    profile.update_attributes(profile_params)
+    respond_with profile, location: nil
+  end
+
   def destroy
     if current_api_v1_user.can_manage_profiles?
-      respond_with User.destroy(params[:id])
+      respond_with Profile.destroy(params[:id])
     else
       respond_with :unauthorized
     end
@@ -34,6 +45,6 @@ class Api::V1::ProfilesController < ApplicationController
   private
 
   def profile_params
-    params.permit(:id, name:, users_permission:, indicators_permission:, reports_permission:, statistics_permission:, profiles_permission:)
+    params.permit(:id, :name, :users_permission, :indicators_permission, :reports_permission, :statistics_permission, :profiles_permission)
   end
 end

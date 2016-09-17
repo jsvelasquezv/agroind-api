@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       get '/users' => 'users#index'
       post '/users' => 'users#create'
       delete '/users/:id' => 'users#destroy'
+      resources :profiles
     end
   end
 
