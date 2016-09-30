@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901204558) do
+ActiveRecord::Schema.define(version: 20160924032809) do
 
   create_table "profiles", force: :cascade do |t|
     t.string  "name"
     t.boolean "users_permission"
     t.boolean "indicators_permission"
-    t.boolean "reports_permission",    default: true
+    t.boolean "reports_permission"
     t.boolean "statistics_permission"
     t.boolean "profiles_permission"
   end
@@ -46,6 +46,10 @@ ActiveRecord::Schema.define(version: 20160901204558) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "profile_id"
+    t.boolean  "state"
+    t.integer  "document"
+    t.string   "last_name"
+    t.string   "address"
   end
 
   add_index "users", ["email"], name: "index_users_on_email"

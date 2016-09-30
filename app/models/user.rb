@@ -6,6 +6,17 @@ class User < ActiveRecord::Base
           :omniauthable
   include DeviseTokenAuth::Concerns::User
 
+  def has_permission?(permission)
+    return self.profile[permission]
+  end
+
+  # def active_for_authentication?
+  #   #remember to call the super
+  #   #then put our own check to determine "active" state using 
+  #   #our own "is_active" column
+  #   super and self.state
+  # end
+
   # def is_admin?
   #   self.profile == "admin" ? true : false
   # end
