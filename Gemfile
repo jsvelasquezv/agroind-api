@@ -22,6 +22,7 @@ gem 'sqlite3'
 # Manage responses on call at the api
 gem 'responders'
 
+gem 'figaro'
 
 # Authentication gems
 

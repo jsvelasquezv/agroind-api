@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160924032809) do
+ActiveRecord::Schema.define(version: 20160930184037) do
 
   create_table "profiles", force: :cascade do |t|
     t.string  "name"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(version: 20160924032809) do
     t.boolean "reports_permission"
     t.boolean "statistics_permission"
     t.boolean "profiles_permission"
+    t.boolean "create_users"
+    t.boolean "list_users"
+    t.boolean "edit_users"
+    t.boolean "deactivate_users"
+    t.boolean "create_profiles"
+    t.boolean "list_profiles"
+    t.boolean "edit_profiles"
+    t.boolean "clone_profiles"
   end
 
   create_table "users", force: :cascade do |t|
