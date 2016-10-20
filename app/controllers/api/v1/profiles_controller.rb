@@ -45,6 +45,20 @@ class Api::V1::ProfilesController < ApplicationController
   private
 
   def profile_params
-    params.permit(:id, :name, :users_permission, :indicators_permission, :reports_permission, :statistics_permission, :profiles_permission)
+    params.permit(:id, 
+                  :name, 
+                  :users_permission,
+                  :list_users,
+                  :create_users,
+                  :edit_users,
+                  :deactivate_users,
+                  :indicators_permission, 
+                  :reports_permission, 
+                  :statistics_permission, 
+                  :profiles_permission,
+                  :list_profiles,
+                  :create_profiles,
+                  :edit_profiles,
+                  :clone_profiles)
   end
 end

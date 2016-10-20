@@ -5,7 +5,7 @@ class Api::V1::UsersController < ApplicationController
   before_action :authenticate_api_v1_user!
 
   def index
-    if current_api_v1_user.can_manage_users?
+    if current_api_v1_user.has_permission?('users_permission')
       users = User.all
       respond_with users
     else
@@ -19,7 +19,8 @@ class Api::V1::UsersController < ApplicationController
   # end
 
   def create
-    if current_api_v1_user.can_manage_users?
+    if (current_api_v1_user.has_permission?('users_permission') and 
+        current_api_v1_user.has_permission?('create_users'))
       user = User.new(admin_params)
       user.save
       respond_with user, location: nil

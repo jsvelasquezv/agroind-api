@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   #   scope :v1 do
   #   end
   # end
-  # devise_for :user
+  devise_for :user
 
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
