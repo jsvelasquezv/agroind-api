@@ -6,6 +6,11 @@ class User < ActiveRecord::Base
           :omniauthable
   include DeviseTokenAuth::Concerns::User
 
+  # validates :document, :name, :last_name, :address, presence: true
+  # validates :document, :email, uniqueness: true
+  # validates :name, length: {in: 8..15}
+  # validates :document, length: {in: 8..15}, numericality: { only_integer: true }
+
   def has_permission?(permission)
     return self.profile[permission]
   end

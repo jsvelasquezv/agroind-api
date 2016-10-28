@@ -12,8 +12,10 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for "User", at: 'auth'
       # get '/users/:id' => 'users#show'
       get '/users' => 'users#index'
+      get '/users/:id' => 'users#show'
       post '/users' => 'users#create'
       delete '/users/:id' => 'users#destroy'
+      patch '/users/:id' => 'users#update'
       resources :profiles
     end
   end

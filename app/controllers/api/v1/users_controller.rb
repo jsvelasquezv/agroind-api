@@ -13,10 +13,10 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  # def show
-  #   user = User.find(params[:id])
-  #   respond_with user
-  # end
+  def show
+    user = User.find(params[:id])
+    respond_with user
+  end
 
   def create
     if (current_api_v1_user.has_permission?('users_permission') and 
@@ -27,6 +27,12 @@ class Api::V1::UsersController < ApplicationController
     else
       respond_with :unauthorized
     end
+  end
+
+  def update
+    user = User.find(params[:id])
+    user.update_attributes(admin_params)
+    respond_with user, location: nil
   end
 
   def destroy
@@ -40,6 +46,6 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def admin_params
-    params.permit(:id, :email, :password, :password_confirmation, :profile_id)
+    params.permit(:id, :document, :name, :last_name, :address, :email, :password, :password_confirmation, :profile_id)
   end
 end
