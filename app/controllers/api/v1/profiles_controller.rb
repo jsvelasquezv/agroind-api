@@ -21,8 +21,12 @@ class Api::V1::ProfilesController < ApplicationController
   def create
     if current_api_v1_user.can_manage_profiles?
       profile = Profile.new(profile_params)
-      profile.save
-      respond_with profile, location: nil
+      if profile.valid?
+        profile.save
+        respond_with profile, location: nil
+      else
+        render :json => profile.errors, status: 422
+      end
     else
       respond_with :unauthorized
     end
