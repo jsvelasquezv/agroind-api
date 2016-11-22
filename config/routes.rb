@@ -17,6 +17,10 @@ Rails.application.routes.draw do
       delete '/users/:id' => 'users#destroy'
       patch '/users/:id' => 'users#update'
       resources :profiles
+      resources :lands
+      resources :indicators
+      # resources :variables
+      # resources :evaluations
     end
   end
 
