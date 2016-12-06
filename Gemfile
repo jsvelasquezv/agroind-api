@@ -19,6 +19,8 @@ gem 'sqlite3'
 # # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
 
+gem 'rack-cors', :require => 'rack/cors'
+
 # Manage responses on call at the api
 gem 'responders'
 

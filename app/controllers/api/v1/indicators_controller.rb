@@ -32,7 +32,7 @@ class Api::V1::IndicatorsController < ApplicationController
   private
 
   def indicator_params
-    params.permit(:id, :nombre, :lands_id, :users_id)
+    params.permit(:id, :name,)
   end
     
 end

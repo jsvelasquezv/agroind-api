@@ -58,6 +58,7 @@ class Api::V1::LandsController < ApplicationController
                   :latitude,
                   :longitude,
                   :area,
-                  :affiliation)
+                  :affiliation,
+                  :users_id)
   end
 end

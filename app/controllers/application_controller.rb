@@ -14,4 +14,8 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:document, :name, :last_name, :address, :profile_id, :email, :password, :password_confirmation])
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :last_name, :address, :email])
   end
+
+  # def set_access_control_headers
+    # headers['Access-Control-Allow-Origin'] = 'http://localhost:4000'
+  # end
 end

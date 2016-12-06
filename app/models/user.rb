@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   belongs_to :profile
-  has_one :land
+  belongs_to :land
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable,

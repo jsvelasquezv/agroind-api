@@ -11,10 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161121072136) do
+ActiveRecord::Schema.define(version: 20161206052231) do
 
   create_table "evaluations", force: :cascade do |t|
-    t.integer "property_id"
     t.integer "evaluator_document"
     t.float   "result"
     t.integer "users_id"
@@ -29,14 +28,11 @@ ActiveRecord::Schema.define(version: 20161121072136) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "lands_id"
-    t.integer  "users_id"
   end
 
   add_index "indicators", ["lands_id"], name: "index_indicators_on_lands_id"
-  add_index "indicators", ["users_id"], name: "index_indicators_on_users_id"
 
   create_table "lands", force: :cascade do |t|
-    t.integer "propietary_document"
     t.string  "name"
     t.string  "zone"
     t.string  "municipality"
@@ -45,7 +41,10 @@ ActiveRecord::Schema.define(version: 20161121072136) do
     t.float   "longitude"
     t.float   "area"
     t.string  "affiliation"
+    t.integer "users_id"
   end
+
+  add_index "lands", ["users_id"], name: "index_lands_on_users_id"
 
   create_table "profiles", force: :cascade do |t|
     t.string  "name"
@@ -98,11 +97,9 @@ ActiveRecord::Schema.define(version: 20161121072136) do
     t.integer  "document"
     t.string   "last_name"
     t.string   "address"
-    t.integer  "lands_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email"
-  add_index "users", ["lands_id"], name: "index_users_on_lands_id"
   add_index "users", ["profile_id"], name: "index_users_on_profile_id"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
@@ -112,11 +109,9 @@ ActiveRecord::Schema.define(version: 20161121072136) do
     t.decimal  "optimun_rating"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.integer  "indicator_id" #Eliminar Columna
     t.integer  "indicators_id"
   end
 
-  add_index "variables", ["indicator_id"], name: "index_variables_on_indicator_id"
   add_index "variables", ["indicators_id"], name: "index_variables_on_indicators_id"
 
 end

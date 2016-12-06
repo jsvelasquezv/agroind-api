@@ -19,8 +19,8 @@ Rails.application.routes.draw do
       resources :profiles
       resources :lands
       resources :indicators
-      # resources :variables
-      # resources :evaluations
+      resources :variables
+      resources :evaluations
     end
   end
 
