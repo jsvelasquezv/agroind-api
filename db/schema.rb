@@ -11,17 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161206052231) do
+ActiveRecord::Schema.define(version: 20170202052008) do
 
   create_table "evaluations", force: :cascade do |t|
     t.integer "evaluator_document"
     t.float   "result"
-    t.integer "users_id"
-    t.integer "lands_id"
+    t.integer "land_id"
   end
 
-  add_index "evaluations", ["lands_id"], name: "index_evaluations_on_lands_id"
-  add_index "evaluations", ["users_id"], name: "index_evaluations_on_users_id"
+  add_index "evaluations", ["land_id"], name: "index_evaluations_on_land_id"
 
   create_table "indicators", force: :cascade do |t|
     t.string   "name"
@@ -31,6 +29,18 @@ ActiveRecord::Schema.define(version: 20161206052231) do
   end
 
   add_index "indicators", ["lands_id"], name: "index_indicators_on_lands_id"
+
+  create_table "indicators_califications", force: :cascade do |t|
+    t.integer "lands_id"
+    t.integer "users_id"
+    t.integer "indicators_id"
+    t.integer "evaluations_id"
+  end
+
+  add_index "indicators_califications", ["evaluations_id"], name: "index_indicators_califications_on_evaluations_id"
+  add_index "indicators_califications", ["indicators_id"], name: "index_indicators_califications_on_indicators_id"
+  add_index "indicators_califications", ["lands_id"], name: "index_indicators_califications_on_lands_id"
+  add_index "indicators_califications", ["users_id"], name: "index_indicators_califications_on_users_id"
 
   create_table "lands", force: :cascade do |t|
     t.string  "name"
@@ -109,9 +119,9 @@ ActiveRecord::Schema.define(version: 20161206052231) do
     t.decimal  "optimun_rating"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.integer  "indicators_id"
+    t.integer  "indicator_id"
   end
 
-  add_index "variables", ["indicators_id"], name: "index_variables_on_indicators_id"
+  add_index "variables", ["indicator_id"], name: "index_variables_on_indicator_id"
 
 end

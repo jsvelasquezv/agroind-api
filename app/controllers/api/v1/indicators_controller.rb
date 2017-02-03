@@ -9,7 +9,7 @@ class Api::V1::IndicatorsController < ApplicationController
 
   def index
     indicators = Indicator.all
-    respond_with indicators
+    respond_with indicators, :include => :variables
   end
 
   def create
@@ -32,7 +32,7 @@ class Api::V1::IndicatorsController < ApplicationController
   private
 
   def indicator_params
-    params.permit(:id, :name,)
+    params.permit(:id, :name)
   end
     
 end

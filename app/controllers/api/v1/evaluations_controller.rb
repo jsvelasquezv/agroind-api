@@ -1,4 +1,4 @@
-class Api::v1::EvaluationsController < ApplicationController
+class Api::V1::EvaluationsController < ApplicationController
   include Devise::Controllers::Helpers
   respond_to :json
 
@@ -15,7 +15,7 @@ class Api::v1::EvaluationsController < ApplicationController
   def create
     evaluation = Evaluation.new(evaluation_params)
     if evaluation.save
-      respond_with evaluation
+      respond_with evaluation, location: nil
     end
   end
 
@@ -32,7 +32,7 @@ class Api::v1::EvaluationsController < ApplicationController
   private
 
   def evaluation_params
-    params.permit(:id, :name, :indicator_id)
+    params.permit(:id, :land_id, :evaluator_document)
   end
     
 end

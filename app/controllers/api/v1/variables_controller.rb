@@ -1,4 +1,4 @@
-class Api::v1::VariablesController < ApplicationController
+class Api::V1::VariablesController < ApplicationController
   include Devise::Controllers::Helpers
   respond_to :json
 
@@ -15,14 +15,14 @@ class Api::v1::VariablesController < ApplicationController
   def create
     variable = Variable.new(variable_params)
     if variable.save
-      respond_with variable
+      respond_with variable, location: nil
     end
   end
 
   def update
     variable = Variable.find(variable_params[:id])
     variable.update_attributes(variable_params)
-    respond_with variable
+    respond_with variable, location: nil
   end
 
   def destroy
@@ -32,7 +32,7 @@ class Api::v1::VariablesController < ApplicationController
   private
 
   def variable_params
-    params.permit(:id, :name, :indicator_id)
+    params.permit(:id, :name, :optimun_rating, :indicators_id)
   end
     
 end

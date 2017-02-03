@@ -51,3 +51,31 @@ admin_user = User.create(name: 'Juan',
                          last_name: 'velasquez',
                          document: 1116264525,
                          address: 'Cra 10 #5-03')
+
+# Indicators and variables
+
+# Manejo de suelos
+
+Indicator.create(name: 'Manejo de suelos')
+
+# variables for manejo de suelos
+
+Variable.create(name: 'Presencia de coberturas vivas y mulch (establecidas o espontaneas) en toda el área cultivada',
+                optimun_rating: 1.2,
+                indicators_id: 1)
+
+Variable.create(name: 'Labranza mínima o de conservación en las áreas de cultivos (Solo el sitio sembrado, curvas a nivel, terrazas etc)',
+                optimun_rating: 1.2,
+                indicators_id: 1)
+
+# Manejo de aguas
+
+Indicator.create(name: 'Manejo de aguas')
+
+Variable.create(name: 'Disponibilidad de agua',
+                optimun_rating: 0.5,
+                indicators_id: 2)
+
+Variable.create(name: 'Cantidad de agua producida en la finca',
+                optimun_rating: 0.5,
+                indicators_id: 2)
