@@ -9,7 +9,7 @@ class Api::V1::EvaluationsController < ApplicationController
 
   def index
     evaluations = Evaluation.all
-    respond_with evaluations
+    respond_with evaluations, :include => [:land, :user]
   end
 
   def create
@@ -32,7 +32,7 @@ class Api::V1::EvaluationsController < ApplicationController
   private
 
   def evaluation_params
-    params.permit(:id, :land_id, :evaluator_document)
+    params.permit(:id, :land_id, :user_id)
   end
     
 end

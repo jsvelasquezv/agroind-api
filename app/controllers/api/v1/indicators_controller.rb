@@ -4,7 +4,7 @@ class Api::V1::IndicatorsController < ApplicationController
 
   def show
     indicator = Indicator.find(indicator_params[:id])
-    respond_with indicator
+    respond_with indicator, :include => :variables
   end
 
   def index

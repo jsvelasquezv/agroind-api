@@ -11,15 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170202052008) do
+ActiveRecord::Schema.define(version: 20170204035939) do
 
   create_table "evaluations", force: :cascade do |t|
-    t.integer "evaluator_document"
+    t.integer "user_id"
     t.float   "result"
     t.integer "land_id"
   end
 
   add_index "evaluations", ["land_id"], name: "index_evaluations_on_land_id"
+  add_index "evaluations", ["user_id"], name: "index_evaluations_on_user_id"
 
   create_table "indicators", force: :cascade do |t|
     t.string   "name"
