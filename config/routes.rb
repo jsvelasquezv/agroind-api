@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       resources :indicators
       resources :variables
       resources :evaluations
+      post '/qualify' => 'evaluations#qualify'
     end
   end
 

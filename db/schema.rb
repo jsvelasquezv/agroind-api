@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170204035939) do
+ActiveRecord::Schema.define(version: 20170206070633) do
 
   create_table "evaluations", force: :cascade do |t|
     t.integer "user_id"
@@ -30,18 +30,6 @@ ActiveRecord::Schema.define(version: 20170204035939) do
   end
 
   add_index "indicators", ["lands_id"], name: "index_indicators_on_lands_id"
-
-  create_table "indicators_califications", force: :cascade do |t|
-    t.integer "lands_id"
-    t.integer "users_id"
-    t.integer "indicators_id"
-    t.integer "evaluations_id"
-  end
-
-  add_index "indicators_califications", ["evaluations_id"], name: "index_indicators_califications_on_evaluations_id"
-  add_index "indicators_califications", ["indicators_id"], name: "index_indicators_califications_on_indicators_id"
-  add_index "indicators_califications", ["lands_id"], name: "index_indicators_califications_on_lands_id"
-  add_index "indicators_califications", ["users_id"], name: "index_indicators_califications_on_users_id"
 
   create_table "lands", force: :cascade do |t|
     t.string  "name"
@@ -72,12 +60,6 @@ ActiveRecord::Schema.define(version: 20170204035939) do
     t.boolean "list_profiles"
     t.boolean "edit_profiles"
     t.boolean "clone_profiles"
-  end
-
-  create_table "ratings_records", force: :cascade do |t|
-    t.integer "land_id"
-    t.integer "evaluator_document"
-    t.float   "result"
   end
 
   create_table "users", force: :cascade do |t|
@@ -114,6 +96,15 @@ ActiveRecord::Schema.define(version: 20170204035939) do
   add_index "users", ["profile_id"], name: "index_users_on_profile_id"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+
+  create_table "variable_scores", force: :cascade do |t|
+    t.integer "variable_id"
+    t.integer "evaluation_id"
+    t.decimal "score"
+  end
+
+  add_index "variable_scores", ["evaluation_id"], name: "index_variable_scores_on_evaluation_id"
+  add_index "variable_scores", ["variable_id"], name: "index_variable_scores_on_variable_id"
 
   create_table "variables", force: :cascade do |t|
     t.string   "name"
