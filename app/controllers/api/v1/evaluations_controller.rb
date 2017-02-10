@@ -35,10 +35,8 @@ class Api::V1::EvaluationsController < ApplicationController
       variable_score.variable_id = qualification['variable_id']
       variable_score.evaluation_id = evaluation_id
       variable_score.score = qualification['score']
-      # variable_score.save()
+      variable_score.save()
       scores.push(variable_score)
-      # variable_score.save()
-      # p qualification['variable_id']
     end
     respond_with scores, location: nil
   end
