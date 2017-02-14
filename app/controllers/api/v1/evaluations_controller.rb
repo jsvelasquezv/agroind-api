@@ -27,6 +27,7 @@ class Api::V1::EvaluationsController < ApplicationController
 
   def qualify
     evaluation_id = qualification_params['evaluation_id']
+    indicator_id = qualification_params['indicator_id']
     qualifications = qualification_params['qualifications']
     scores = []
     qualifications.each do | qualification |
@@ -35,9 +36,17 @@ class Api::V1::EvaluationsController < ApplicationController
       variable_score.variable_id = qualification['variable_id']
       variable_score.evaluation_id = evaluation_id
       variable_score.score = qualification['score']
+      variable_score.indicator_id = indicator_id
       variable_score.save()
       scores.push(variable_score)
     end
+    respond_with scores, location: nil
+  end
+
+  def qualifications
+    evaluation_id = qualification_params['evaluation_id']
+    indicator_id = qualification_params['indicator_id']
+    scores = VariableScore.where(evaluation_id: evaluation_id, indicator_id: indicator_id)
     respond_with scores, location: nil
   end
 
@@ -52,7 +61,7 @@ class Api::V1::EvaluationsController < ApplicationController
   end
 
   def qualification_params
-    params.permit(:evaluation_id, qualifications: [:variable_id, :score])
+    params.permit(:evaluation_id, :indicator_id, qualifications: [:variable_id, :score])
   end
     
 end

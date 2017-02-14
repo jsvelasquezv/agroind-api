@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170206070633) do
+ActiveRecord::Schema.define(version: 20170214080803) do
 
   create_table "evaluations", force: :cascade do |t|
     t.integer "user_id"
@@ -101,9 +101,11 @@ ActiveRecord::Schema.define(version: 20170206070633) do
     t.integer "variable_id"
     t.integer "evaluation_id"
     t.decimal "score"
+    t.integer "indicator_id"
   end
 
   add_index "variable_scores", ["evaluation_id"], name: "index_variable_scores_on_evaluation_id"
+  add_index "variable_scores", ["indicator_id"], name: "index_variable_scores_on_indicator_id"
   add_index "variable_scores", ["variable_id"], name: "index_variable_scores_on_variable_id"
 
   create_table "variables", force: :cascade do |t|
