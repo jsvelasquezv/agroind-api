@@ -5,7 +5,7 @@
 4 verbose stack Error: ENOENT: no such file or directory, open '/home/sebastian/Workspace/Rails/agroind-api/package.json'
 4 verbose stack     at Error (native)
 5 verbose cwd /home/sebastian/Workspace/Rails/agroind-api
-6 error Linux 4.4.0-62-generic
+6 error Linux 4.4.0-64-generic
 7 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "start"
 8 error node v6.6.0
 9 error npm  v2.15.11
