@@ -23,6 +23,8 @@ Rails.application.routes.draw do
       resources :evaluations
       get 'evaluations/:evaluation_id/qualifications/indicator/:indicator_id' => 'evaluations#qualifications'
       post 'evaluations/qualify' => 'evaluations#qualify'
+      post 'evaluations/batch/create' => 'evaluations#batch_create'
+      patch 'evaluations/batch/update' => 'evaluations#batch_update'
     end
   end
 

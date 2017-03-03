@@ -19,10 +19,32 @@ class Api::V1::EvaluationsController < ApplicationController
     end
   end
 
+  def batch_create
+    evaluations = batch_evaluation_params['evaluations']
+    created_evaluations = []
+    evaluations.each do | evaluation |
+      temp_evaluation = Evaluation.new(evaluation)
+      temp_evaluation.save()
+      created_evaluations.push(temp_evaluation)
+    end
+    respond_with created_evaluations, location: nil
+  end
+
   def update
     evaluation = Evaluation.find(evaluation_params[:id])
     evaluation.update_attributes(evaluation_params)
     respond_with evaluation
+  end
+
+  def batch_update
+    evaluations = batch_evaluation_params['evaluations']
+    updated_evaluations = []
+    evaluations.each do | evaluation |
+      updated_evaluation = Evaluation.find(evaluation['id'])
+      updated_evaluation.update_attributes(evaluation)
+      updated_evaluations.push(updated_evaluation)
+    end
+    respond_with updated_evaluations, location: nil
   end
 
   def qualify
@@ -58,6 +80,10 @@ class Api::V1::EvaluationsController < ApplicationController
 
   def evaluation_params
     params.permit(:id, :land_id, :user_id)
+  end
+
+  def batch_evaluation_params
+    params.permit(evaluations: [:id, :land_id, :user_id])
   end
 
   def qualification_params
