@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       post 'evaluations/qualify' => 'evaluations#qualify'
       post 'evaluations/batch/create' => 'evaluations#batch_create'
       patch 'evaluations/batch/update' => 'evaluations#batch_update'
+      post 'evaluations/batch/qualify' => 'evaluations#batch_qualify'
     end
   end
 

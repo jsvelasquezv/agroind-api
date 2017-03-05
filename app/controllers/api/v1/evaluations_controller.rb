@@ -10,6 +10,7 @@ class Api::V1::EvaluationsController < ApplicationController
   def index
     evaluations = Evaluation.all
     respond_with evaluations, :include => [:land, :user]
+    # respond_with '', location: nil
   end
 
   def create
@@ -65,6 +66,36 @@ class Api::V1::EvaluationsController < ApplicationController
     respond_with scores, location: nil
   end
 
+  def batch_qualify
+    qualificationsToApi = []
+    params['_json'].each do | qualification |
+      evaluation_id = qualification['evaluation_id']
+      indicator_id = qualification['indicator_id']
+      qualification['qualifications'].each do | score |
+        variable_id = score['variable_id']
+          # variable_score = VariableScore.find(
+          #   evaluation_id: evaluation_id,
+          #   indicator_id: indicator_id,
+          #   variable_id: variable_id
+          # ) rescue nil
+          # if variable_score == nil
+            variable_score = VariableScore.new()
+            variable_score.evaluation_id = evaluation_id
+            variable_score.indicator_id = indicator_id
+            variable_score.variable_id = variable_id
+            variable_score.save()
+          # else
+          #   variable_score.evaluation_id = evaluation_id
+          #   variable_score.indicator_id = indicator_id
+          #   variable_score.variable_id = variable_id
+          #   variable_score.save()
+          # end
+          qualificationsToApi.push(variable_score)
+      end
+    end
+    respond_with qualificationsToApi, location: nil
+  end
+
   def qualifications
     evaluation_id = qualification_params['evaluation_id']
     indicator_id = qualification_params['indicator_id']
@@ -88,6 +119,10 @@ class Api::V1::EvaluationsController < ApplicationController
 
   def qualification_params
     params.permit(:evaluation_id, :indicator_id, qualifications: [:variable_id, :score])
+  end
+
+  def batch_qualification_params
+    # params.permit(_json: [:evaluation_id, :indicator_id, qualifications: [:variable_id, :score]])
   end
     
 end
