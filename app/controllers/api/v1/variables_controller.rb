@@ -32,7 +32,7 @@ class Api::V1::VariablesController < ApplicationController
   private
 
   def variable_params
-    params.permit(:id, :name, :optimun_rating, :indicators_id)
+    params.permit(:id, :name, :optimun_rating, :indicator_id)
   end
     
 end

@@ -52,17 +52,40 @@ class Api::V1::EvaluationsController < ApplicationController
     evaluation_id = qualification_params['evaluation_id']
     indicator_id = qualification_params['indicator_id']
     qualifications = qualification_params['qualifications']
+    evaluation = Evaluation.find(evaluation_id)
     scores = []
+    variable_average = 0
     qualifications.each do | qualification |
       # qualification['variable_id'], evaluation_id, qualification['score']
-      variable_score = VariableScore.new()
-      variable_score.variable_id = qualification['variable_id']
-      variable_score.evaluation_id = evaluation_id
-      variable_score.score = qualification['score']
-      variable_score.indicator_id = indicator_id
+      variable_id = qualification['variable_id']
+      score = qualification['score']
+      variable_score = VariableScore.find_by(evaluation_id: evaluation_id, indicator_id: indicator_id, variable_id: variable_id)
+      if variable_score == nil
+        variable_score = VariableScore.new()
+        variable_score.evaluation_id = evaluation_id
+        variable_score.indicator_id = indicator_id
+        variable_score.variable_id = variable_id
+      end
+      variable_score.score = score
       variable_score.save()
+      variable_average += score
       scores.push(variable_score)
     end
+    if scores.size == 0 
+      variable_average = 0 
+    else 
+      variable_average = variable_average / scores.size
+    end
+    indicator_variables_average = IndicatorVariablesAverage.find_by(evaluation_id: evaluation_id, indicator_id: indicator_id)
+    if indicator_variables_average == nil
+      indicator_variables_average = IndicatorVariablesAverage.new()
+      indicator_variables_average.evaluation_id = evaluation_id
+      indicator_variables_average.indicator_id = indicator_id
+    end
+    indicator_variables_average.result = variable_average
+    indicator_variables_average.save()
+    evaluation.result = evaluation.variable_scores.average(:score)
+    evaluation.save()
     respond_with scores, location: nil
   end
 
@@ -110,7 +133,7 @@ class Api::V1::EvaluationsController < ApplicationController
   private
 
   def evaluation_params
-    params.permit(:id, :land_id, :user_id)
+    params.permit(:id, :land_id, :user_id, :assigment_date, :result)
   end
 
   def batch_evaluation_params
