@@ -133,7 +133,7 @@ class Api::V1::EvaluationsController < ApplicationController
   private
 
   def evaluation_params
-    params.permit(:id, :land_id, :user_id, :assigment_date, :result)
+    params.permit(:id, :land_id, :user_id, :assignment_date, :result)
   end
 
   def batch_evaluation_params

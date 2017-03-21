@@ -26,8 +26,13 @@ Rails.application.routes.draw do
       post 'evaluations/batch/create' => 'evaluations#batch_create'
       patch 'evaluations/batch/update' => 'evaluations#batch_update'
       post 'evaluations/batch/qualify' => 'evaluations#batch_qualify'
+      get 'statistics/ranking/best' => 'statistics#ranking_best'
+      get 'statistics/ranking/worst' => 'statistics#ranking_worst'
+      get 'statistics/graphics/radar/start_date/:start_date/end_date/:end_date' => 'statistics#radar_data_between_dates'
     end
   end
+
+  get '/ping' => 'application#ping', :defaults => { :format => 'json' }
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
