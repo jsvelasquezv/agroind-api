@@ -53,8 +53,10 @@ class Api::V1::EvaluationsController < ApplicationController
     indicator_id = qualification_params['indicator_id']
     qualifications = qualification_params['qualifications']
     evaluation = Evaluation.find(evaluation_id)
+    indicator = Indicator.find(indicator_id);
     scores = []
     variable_average = 0
+    qualification_percentage = 0
     qualifications.each do | qualification |
       # qualification['variable_id'], evaluation_id, qualification['score']
       variable_id = qualification['variable_id']
@@ -73,8 +75,10 @@ class Api::V1::EvaluationsController < ApplicationController
     end
     if scores.size == 0 
       variable_average = 0 
+      qualification_percentage = 0 
     else 
       variable_average = variable_average / scores.size
+      qualification_percentage = 100 * scores.size / indicator.variables.size
     end
     indicator_variables_average = IndicatorVariablesAverage.find_by(evaluation_id: evaluation_id, indicator_id: indicator_id)
     if indicator_variables_average == nil
@@ -83,6 +87,7 @@ class Api::V1::EvaluationsController < ApplicationController
       indicator_variables_average.indicator_id = indicator_id
     end
     indicator_variables_average.result = variable_average
+    indicator_variables_average.qualification_percentage = qualification_percentage
     indicator_variables_average.save()
     evaluation.result = evaluation.variable_scores.average(:score)
     evaluation.save()
@@ -124,6 +129,13 @@ class Api::V1::EvaluationsController < ApplicationController
     indicator_id = qualification_params['indicator_id']
     scores = VariableScore.where(evaluation_id: evaluation_id, indicator_id: indicator_id)
     respond_with scores, location: nil
+  end
+
+  def indicator_variables_averages
+    evaluation_id = params[:evaluation_id]
+    indicator_variables_averages = IndicatorVariablesAverage.where(evaluation_id: evaluation_id)
+    indicator_variables_averages_indexed = indicator_variables_averages.group_by { | average | average.indicator_id }
+    respond_with indicator_variables_averages_indexed, location: nil
   end
 
   def destroy

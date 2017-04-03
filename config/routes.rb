@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
       mount_devise_token_auth_for "User", at: 'auth'
-      # get '/users/:id' => 'users#show'
       get '/users' => 'users#index'
       get '/users/:id' => 'users#show'
       post '/users' => 'users#create'
@@ -22,13 +21,17 @@ Rails.application.routes.draw do
       resources :variables
       resources :evaluations
       get 'evaluations/:evaluation_id/qualifications/indicator/:indicator_id' => 'evaluations#qualifications'
+      get 'evaluations/indicators/averages/:evaluation_id' => 'evaluations#indicator_variables_averages'
       post 'evaluations/qualify' => 'evaluations#qualify'
       post 'evaluations/batch/create' => 'evaluations#batch_create'
+      post 'evaluations/:evaluation_id/analysis' => 'evaluations#add_analysis'
+      post 'evaluations/:evaluation_id/recommendation' => 'evaluations#add_recommendation'
       patch 'evaluations/batch/update' => 'evaluations#batch_update'
       post 'evaluations/batch/qualify' => 'evaluations#batch_qualify'
       get 'statistics/ranking/best' => 'statistics#ranking_best'
       get 'statistics/ranking/worst' => 'statistics#ranking_worst'
       get 'statistics/graphics/radar/start_date/:start_date/end_date/:end_date' => 'statistics#radar_data_between_dates'
+      get 'statistics/evaluation/:evaluation_id' => 'statistics#evaluation_report'
     end
   end
 
