@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170401162044) do
+ActiveRecord::Schema.define(version: 20170407041349) do
+
+  create_table "color_codes", force: :cascade do |t|
+    t.string "state"
+    t.float  "min"
+    t.float  "max"
+    t.string "color"
+    t.string "alert"
+    t.string "attention_time"
+  end
 
   create_table "evaluations", force: :cascade do |t|
     t.integer "user_id"

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       resources :indicators
       resources :variables
       resources :evaluations
+      resources :color_codes
       get 'evaluations/:evaluation_id/qualifications/indicator/:indicator_id' => 'evaluations#qualifications'
       get 'evaluations/indicators/averages/:evaluation_id' => 'evaluations#indicator_variables_averages'
       post 'evaluations/qualify' => 'evaluations#qualify'

@@ -336,3 +336,39 @@ Variable.create(name: 'Existe la oferta de mano de obra en la zona',
                 optimun_rating: 0.5,
                 indicator_id: 12)
 
+# Color codes
+
+ColorCode.create(state: 'Critico',
+                 min: 0.0,
+                 max: 1.0,
+                 color: '#f44336',
+                 alert: 'Atención Urgente',
+                 attention_time: 'Corto Plazo')
+
+ColorCode.create(state: 'Moderadamente Critico',
+                 min: 1.1,
+                 max: 2.0,
+                 color: '#ff9800',
+                 alert: 'Atención Urgente',
+                 attention_time: 'Corto Plazo')
+
+ColorCode.create(state: 'Levemente Critico',
+                 min: 2.1,
+                 max: 3.0,
+                 color: '#ffeb3b',
+                 alert: 'Atención Urgente',
+                 attention_time: 'Corto Plazo')
+
+ColorCode.create(state: 'Susceptible de mejora',
+                 min: 3.1,
+                 max: 4.0,
+                 color: '#03a9f4',
+                 alert: 'Gestión de Mejora',
+                 attention_time: 'Mediano Plazo')
+
+ColorCode.create(state: 'Sostenibilidad Avanzada',
+                 min: 4.1,
+                 max: 5.0,
+                 color: '#4caf50',
+                 alert: 'Mejora Sostenida',
+                 attention_time: 'Continuo')

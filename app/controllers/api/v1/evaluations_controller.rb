@@ -41,8 +41,8 @@ class Api::V1::EvaluationsController < ApplicationController
     evaluations = batch_evaluation_params['evaluations']
     updated_evaluations = []
     evaluations.each do | evaluation |
-      updated_evaluation = Evaluation.find(evaluation['id'])
-      updated_evaluation.update_attributes(evaluation)
+      updated_evaluation = Evaluation.where(evaluation_id: evaluation['id'])
+      updated_evaluation.update_al(evaluation)
       updated_evaluations.push(updated_evaluation)
     end
     respond_with updated_evaluations, location: nil
@@ -142,10 +142,32 @@ class Api::V1::EvaluationsController < ApplicationController
     respond_with Evaluation.destroy(params[:id])
   end
 
+  def add_recommendation
+    evaluation = Evaluation.find(recommendation_params['id'])
+    evaluation.recommendations = recommendation_params['recommendations']
+    evaluation.save
+    respond_with evaluation, location: nil
+  end
+
+  def add_analysis
+    evaluation = Evaluation.find(analysis_params['id'])
+    evaluation.analysis = analysis_params['analysis']
+    evaluation.save
+    respond_with evaluation, location: nil
+  end
+
   private
 
+  def recommendation_params
+    params.permit(:id, :recommendations)
+  end
+
+  def analysis_params
+    params.permit(:id, :analysis)
+  end
+
   def evaluation_params
-    params.permit(:id, :land_id, :user_id, :assignment_date, :result)
+    params.permit(:id, :land_id, :user_id, :assignment_date, :result, :recommendation, :analysis)
   end
 
   def batch_evaluation_params
@@ -157,7 +179,7 @@ class Api::V1::EvaluationsController < ApplicationController
   end
 
   def batch_qualification_params
-    # params.permit(_json: [:evaluation_id, :indicator_id, qualifications: [:variable_id, :score]])
+    params.permit(_json: [:evaluation_id, :indicator_id, qualifications: [:variable_id, :score]])
   end
     
 end
