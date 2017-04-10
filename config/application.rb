@@ -23,10 +23,10 @@ module Agroind
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.middleware.insert_before 0, "Rack::Cors" do 
         allow do
-            origins 'localhost'
+            origins '*'
             resource '*', :headers => :any,
                           :methods => [:get, :post, :put, :delete, :options, :head],
-                          :expose => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+                          :expose => ['access-token', 'expiry', 'token-type', 'uid', 'client', :get, :post, :delete, :put, :patch, :options],
                           :max_age => 0
         end
     end
