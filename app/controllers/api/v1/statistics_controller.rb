@@ -31,6 +31,11 @@ class Api::V1::StatisticsController < ApplicationController
   def evaluation_report
     evaluation_id = evaluation_report_params['evaluation_id']
     evaluation = Evaluation.includes(:land).find_by(id: evaluation_id)
+    color_codes = ColorCode.all
+    # color_ranges = {}
+    # color_codes.each do | color_code |
+    #   color_ranges[(color_code.min..color_code.max)] = color_code.color
+    # end
     if evaluation != nil
       indicators = Indicator.all
       variables = Variable.all
@@ -39,11 +44,7 @@ class Api::V1::StatisticsController < ApplicationController
       variable_scores = VariableScore.includes(:variable).where(:evaluation_id => evaluation_id)
       variables_scores_indexed =  variable_scores.group_by { | score | score.indicator_id }
       variables_indexed = variables.group_by { | variable | variable.id}
-      # variables_report = []
-      # variable_scores.each do | variable_score | 
-      #   variables_report.push({variable: variable_score.variable, variable_score: variable_score})
-      # end
-
+      p indicator_variables_averages_indexed
       evaluation_report = {}
       indicators_report = []
       indicator_report = {}
@@ -51,6 +52,8 @@ class Api::V1::StatisticsController < ApplicationController
         indicator_report["id"] = indicator.id
         indicator_report["name"] = indicator.name
         indicator_report["variables_average"] = indicator_variables_averages_indexed[indicator.id]
+        indicator_report["color"] = getColor(color_codes, indicator_report["variables_average"])
+        # p indicator_variables_averages_indexed[indicator.id]
         indicator_report["variables_scores"] = variables_scores_indexed[indicator.id]
         indicators_report.push(indicator_report)
         indicator_report = {}
@@ -87,6 +90,25 @@ class Api::V1::StatisticsController < ApplicationController
 
   def radar_data_dates_params
     params.permit(:start_date, :end_date)
+  end
+
+  def getColor(color_codes, variables_average)
+    color = nil
+    if variables_average != nil
+      value = variables_average[0]['result']
+      if (value >= color_codes[0].min && value < color_codes[1].min)
+        color = color_codes[0].color
+      elsif (value >= color_codes[1].min && value < color_codes[2].min)
+        color = color_codes[1].color
+      elsif (value >= color_codes[2].min && value < color_codes[3].min)
+        color = color_codes[2].color
+      elsif (value >= color_codes[3].min && value < color_codes[4].min)
+        color = color_codes[3].color
+      elsif (value >= color_codes[4].min && value <= color_codes[4].max)
+        color = color_codes[4].color
+      end
+    end
+    return color
   end
     
 end

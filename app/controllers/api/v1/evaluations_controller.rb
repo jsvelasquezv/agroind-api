@@ -9,7 +9,7 @@ class Api::V1::EvaluationsController < ApplicationController
 
   def index
     evaluations = Evaluation.all
-    respond_with evaluations, :include => [:land, :user]
+    respond_with evaluations, :include => [:land, :user, :evaluator]
     # respond_with '', location: nil
   end
 
@@ -42,7 +42,7 @@ class Api::V1::EvaluationsController < ApplicationController
     updated_evaluations = []
     evaluations.each do | evaluation |
       updated_evaluation = Evaluation.where(evaluation_id: evaluation['id'])
-      updated_evaluation.update_al(evaluation)
+      updated_evaluation.update_all(evaluation)
       updated_evaluations.push(updated_evaluation)
     end
     respond_with updated_evaluations, location: nil
@@ -167,11 +167,11 @@ class Api::V1::EvaluationsController < ApplicationController
   end
 
   def evaluation_params
-    params.permit(:id, :land_id, :user_id, :assignment_date, :result, :recommendation, :analysis)
+    params.permit(:id, :land_id, :user_id, :evaluator_id, :assignment_date, :result, :recommendation, :analysis)
   end
 
   def batch_evaluation_params
-    params.permit(evaluations: [:id, :land_id, :user_id])
+    params.permit(evaluations: [:id, :land_id, :user_id, :evaluator_id])
   end
 
   def qualification_params

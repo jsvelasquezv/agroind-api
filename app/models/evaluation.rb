@@ -1,4 +1,5 @@
 class Evaluation < ActiveRecord::Base
+  has_one :evaluator,  class_name: "User", foreign_key: "id"
   belongs_to :user
   belongs_to :land
   has_many :variable_scores

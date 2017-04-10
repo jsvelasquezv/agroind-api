@@ -52,6 +52,15 @@ admin_user = User.create(name: 'Juan',
                          document: 1116264525,
                          address: 'Cra 10 #5-03')
 
+admin_user2 = User.create(name: 'Oscar',
+                         email: 'oscar@gmail.com',
+                         profile_id: 1,
+                         password: '12341234',
+                         password_confirmation: '12341234',
+                         last_name: 'ramirez',
+                         document: 1116264525,
+                         address: 'Cra 10 #5-03')
+
 # Indicators and variables
 
 # Manejo de suelos

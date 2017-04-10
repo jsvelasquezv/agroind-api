@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170407041349) do
+ActiveRecord::Schema.define(version: 20170408235639) do
 
   create_table "color_codes", force: :cascade do |t|
     t.string "state"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20170407041349) do
     t.date    "assignment_date"
     t.text    "analysis"
     t.text    "recommendations"
+    t.integer "evaluator_id"
   end
 
   add_index "evaluations", ["land_id"], name: "index_evaluations_on_land_id"
