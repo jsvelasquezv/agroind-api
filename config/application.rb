@@ -21,9 +21,19 @@ module Agroind
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
+    # config.middleware.insert_before 0, "Rack::Cors" do 
+    #     allow do
+    #         origins '*'
+    #         resource '*', :headers => :any,
+    #                       :methods => [:get, :post, :put, :delete, :options, :head],
+    #                       :expose => ['access-token', 'expiry', 'token-type', 'uid', 'client', :get, :post, :delete, :put, :patch, :options],
+    #                       :max_age => 0
+    #     end
+    # end
     config.middleware.insert_before 0, "Rack::Cors" do 
         allow do
-            origins '*'
+            origins 'http://agroind-web.s3-website-sa-east-1.amazonaws.com'
+            # origins 'localhost'
             resource '*', :headers => :any,
                           :methods => [:get, :post, :put, :delete, :options, :head],
                           :expose => ['access-token', 'expiry', 'token-type', 'uid', 'client', :get, :post, :delete, :put, :patch, :options],

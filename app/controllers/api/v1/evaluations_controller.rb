@@ -96,29 +96,24 @@ class Api::V1::EvaluationsController < ApplicationController
 
   def batch_qualify
     qualificationsToApi = []
-    params['_json'].each do | qualification |
-      evaluation_id = qualification['evaluation_id']
-      indicator_id = qualification['indicator_id']
-      qualification['qualifications'].each do | score |
-        variable_id = score['variable_id']
-          # variable_score = VariableScore.find(
-          #   evaluation_id: evaluation_id,
-          #   indicator_id: indicator_id,
-          #   variable_id: variable_id
-          # ) rescue nil
-          # if variable_score == nil
+    if batch_qualification_params['scores'] != nil
+      batch_qualification_params['scores'].each do | qualification |
+        evaluation_id = qualification['evaluation_id']
+        indicator_id = qualification['indicator_id']
+        qualification['qualifications'].each do | score |
+          variable_id = score['variable_id']
+          score_value = score['score']
+          variable_score = VariableScore.find_by(evaluation_id: evaluation_id, indicator_id: indicator_id, variable_id: variable_id)
+          if variable_score == nil
             variable_score = VariableScore.new()
             variable_score.evaluation_id = evaluation_id
             variable_score.indicator_id = indicator_id
             variable_score.variable_id = variable_id
-            variable_score.save()
-          # else
-          #   variable_score.evaluation_id = evaluation_id
-          #   variable_score.indicator_id = indicator_id
-          #   variable_score.variable_id = variable_id
-          #   variable_score.save()
-          # end
+          end
+          variable_score.score = score_value
+          variable_score.save()
           qualificationsToApi.push(variable_score)
+        end
       end
     end
     respond_with qualificationsToApi, location: nil
@@ -179,7 +174,7 @@ class Api::V1::EvaluationsController < ApplicationController
   end
 
   def batch_qualification_params
-    params.permit(_json: [:evaluation_id, :indicator_id, qualifications: [:variable_id, :score]])
+    params.permit(scores: [:evaluation_id, :indicator_id, qualifications: [:variable_id, :score]])
   end
     
 end

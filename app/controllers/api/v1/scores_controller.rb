@@ -26,7 +26,9 @@ class Api::V1::ScoresController < ApplicationController
   end
 
   def destroy
-    respond_with score.destroy(params[:id])
+    # VariableScore.destroy(score_params[:id])
+    VariableScore.delete_all
+    # respond_with [], location: nil
   end
 
   private
