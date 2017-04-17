@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   belongs_to :profile
   belongs_to :land
+  has_many :evaluations, class_name: "Evaluation", foreign_key: "evaluator_id"
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable,

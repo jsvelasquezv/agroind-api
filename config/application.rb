@@ -32,8 +32,8 @@ module Agroind
     # end
     config.middleware.insert_before 0, "Rack::Cors" do 
         allow do
-            origins 'http://agroind-web.s3-website-sa-east-1.amazonaws.com'
-            # origins 'localhost'
+            # origins 'http://agroind-web.s3-website-sa-east-1.amazonaws.com'
+            origins 'localhost'
             resource '*', :headers => :any,
                           :methods => [:get, :post, :put, :delete, :options, :head],
                           :expose => ['access-token', 'expiry', 'token-type', 'uid', 'client', :get, :post, :delete, :put, :patch, :options],

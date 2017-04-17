@@ -16,15 +16,31 @@ class Api::V1::StatisticsController < ApplicationController
     start_date = radar_data_dates_params['start_date'].to_date
     end_date = radar_data_dates_params['end_date'].to_date
     evaluations = Evaluation.where(:assignment_date => start_date..end_date)
+    evaluations_size = evaluations.size
+    color_codes = ColorCode.all
     labels = Indicator.all.map { | indicator | indicator.name }
     datasets = []
+    summary = []
     evaluations.each do | evaluation |
       dataset = {}
       dataset['label'] = evaluation.assignment_date 
-      dataset['data'] = evaluation.indicator_variables_averages.map { | average | average.result }
+      dataset['data'] = evaluation.indicator_variables_averages.map { | average | average.result * 5 }
       datasets.push(dataset)
     end
-    data = {labels: labels, datasets: datasets}
+    indicator_variables_averages = datasets.map { |dataset| dataset['data'] }
+    transposed = Array.new(indicator_variables_averages.map(&:length).max){|i| indicator_variables_averages.map{|e| e[i]}}
+    sums = transposed.map { |x| x.sum(&:to_f) }
+    labels.each_with_index do | label, index |
+      value = 0
+      if sums[index] != nil
+        value = sums[index] / evaluations_size
+      end
+      color = 
+      average = {indicator: label, value: value, color: getColorSummary(color_codes, value)}
+      summary.push(average)
+      average = nil
+    end
+    data = {labels: labels, datasets: datasets, summary: summary}
     respond_with data, location: nil
   end
 
@@ -32,10 +48,6 @@ class Api::V1::StatisticsController < ApplicationController
     evaluation_id = evaluation_report_params['evaluation_id']
     evaluation = Evaluation.includes(:land).find_by(id: evaluation_id)
     color_codes = ColorCode.all
-    # color_ranges = {}
-    # color_codes.each do | color_code |
-    #   color_ranges[(color_code.min..color_code.max)] = color_code.color
-    # end
     if evaluation != nil
       indicators = Indicator.all
       variables = Variable.all
@@ -44,7 +56,7 @@ class Api::V1::StatisticsController < ApplicationController
       variable_scores = VariableScore.includes(:variable).where(:evaluation_id => evaluation_id)
       variables_scores_indexed =  variable_scores.group_by { | score | score.indicator_id }
       variables_indexed = variables.group_by { | variable | variable.id}
-      p indicator_variables_averages_indexed
+      # p indicator_variables_averages_indexed
       evaluation_report = {}
       indicators_report = []
       indicator_report = {}
@@ -67,10 +79,10 @@ class Api::V1::StatisticsController < ApplicationController
       datasets = []
       datasetEvaluation = {}
       datasetEvaluation["label"] = evaluation.land.name
-      datasetEvaluation["data"] = indicator_variables_averages.map { | average | average.result }
+      datasetEvaluation["data"] = indicator_variables_averages.map { | average | average.result * 5}
       dataSetOptimun = {}
       dataSetOptimun["label"] = "Optimo"
-      dataSetOptimun["data"] = Array.new(indicators.size, 1);
+      dataSetOptimun["data"] = Array.new(indicators.size, 5);
 
       datasets = [datasetEvaluation, dataSetOptimun]
       chartData = {labels: labels, datasets: datasets}
@@ -95,7 +107,7 @@ class Api::V1::StatisticsController < ApplicationController
   def getColor(color_codes, variables_average)
     color = nil
     if variables_average != nil
-      value = variables_average[0]['result']
+      value = variables_average[0]['result'] * 5
       if (value >= color_codes[0].min && value < color_codes[1].min)
         color = color_codes[0].color
       elsif (value >= color_codes[1].min && value < color_codes[2].min)
@@ -107,6 +119,22 @@ class Api::V1::StatisticsController < ApplicationController
       elsif (value >= color_codes[4].min && value <= color_codes[4].max)
         color = color_codes[4].color
       end
+    end
+    return color
+  end
+
+  def getColorSummary(color_codes, value)
+    color = nil
+    if (value >= color_codes[0].min && value < color_codes[1].min)
+      color = color_codes[0].color
+    elsif (value >= color_codes[1].min && value < color_codes[2].min)
+      color = color_codes[1].color
+    elsif (value >= color_codes[2].min && value < color_codes[3].min)
+      color = color_codes[2].color
+    elsif (value >= color_codes[3].min && value < color_codes[4].min)
+      color = color_codes[3].color
+    elsif (value >= color_codes[4].min && value <= color_codes[4].max)
+      color = color_codes[4].color
     end
     return color
   end

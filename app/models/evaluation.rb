@@ -1,6 +1,6 @@
 class Evaluation < ActiveRecord::Base
-  has_one :evaluator,  class_name: "User", foreign_key: "id"
-  belongs_to :user
+  belongs_to :evaluator, class_name: "User", foreign_key: "evaluator_id"
+  belongs_to :user, class_name: "User", foreign_key: "user_id"
   belongs_to :land
   has_many :variable_scores
   has_many :indicator_variables_averages

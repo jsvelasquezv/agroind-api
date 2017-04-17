@@ -4,13 +4,20 @@ class Api::V1::EvaluationsController < ApplicationController
 
   def show
     evaluation = Evaluation.find(evaluation_params[:id])
-    respond_with evaluation
+    respond_with evaluation, :include => [:land, :user, :evaluator], location: nil
   end
 
   def index
     evaluations = Evaluation.all
-    respond_with evaluations, :include => [:land, :user, :evaluator]
+    respond_with evaluations, :include => [:land, :user, :evaluator], location: nil
+    # render json: evaluations.as_json(include: [:user, :land, :evaluator])
     # respond_with '', location: nil
+  end
+
+  def user_evaluations
+    # evaluations = Evaluation.includes(:indicator_variables_averages).where(evaluator_id: params['evaluator_id']).where('indicator_variables_averages.id is null').references(:indicator_variables_average)
+    evaluations = Evaluation.where(evaluator_id: params['evaluator_id'], result: nil)
+    respond_with evaluations, :include => [:land, :user, :evaluator], location:nil
   end
 
   def create
